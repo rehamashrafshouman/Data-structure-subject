@@ -1,0 +1,102 @@
+#include<iostream>
+#include<string>
+#include <stack>
+using namespace std;
+bool Is_bracket(char c)
+{
+	if (c == '{' || c == '}' || c == '[' || c == ']' || c == '(' || c == ')' || c== '<' || c == '>') return true;
+	
+	return false;
+ 
+}
+ 
+ 
+bool Is_left_bracket(char c)
+{
+	if (c == '{' || c == '[' || c == '(' || c == '<' ) return true;
+ 
+	return false;
+}
+bool Is_right_bracket(char c)
+{
+	if (c == '}' || c == ']' || c == ')' || c == '>') return true;
+ 
+	return false;
+}
+bool same(char x ,char y)
+{
+	if (x == '(' && y == ')')
+		return true;
+	else if (x == '[' && y == ']')
+		return true;
+	else if (x == '{' && y == '}')
+		return true;
+	else if (x == '<' && y == '>')
+		return true;
+	else{
+		return false;
+	}
+ 
+}
+ 
+void check(string input)
+{
+	stack<char>S;
+	for (int i = 0; i < input.length(); i++)
+	{
+		if (Is_bracket(input[i]))
+		{
+			if (Is_left_bracket(input[i]))
+			{
+				S.push(input[i]);
+			}
+			else if (Is_right_bracket(input[i]))
+			{
+				if (!S.empty())
+				{
+					
+					if (same(S.top(), input[i]) )
+					{
+						S.pop();
+					}
+					else{
+						cout << "NO" << endl;
+						return;
+					}
+				}
+				else
+				{
+					cout << "NO" << endl;
+					return;
+				}
+			}
+		}
+	}
+	if (!S.empty())
+	{
+		cout << "NO" << endl;
+		return;
+	}
+	else{
+		cout << "YES" << endl;
+	}
+}
+int main()
+{
+	int n;
+	string * ptr;
+	string input;
+	cin >> n;
+	ptr = new string[n];
+	for (int i = 0; i < n;i++)
+	{
+		cin >> input;
+		ptr[i] = input;
+	}
+	for (int i = 0; i < n; i++)
+	{
+		check(ptr[i]);
+	}
+	//system("pause");
+	return 0;
+}
