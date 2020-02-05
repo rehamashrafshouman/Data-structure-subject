@@ -1,0 +1,55 @@
+#include<iostream>
+using namespace std;
+int count = 0;
+void add_edge(int ** vertArr,int u, int v) {       //function to add edge into the matrix
+   vertArr[u][v] = 1;
+}
+ 
+void Directed_NotDirated(int ** edges, int ** adj,int no_edges)
+{
+	int v1 = 0,v2=0;
+	for (int i = 0; i < no_edges; i++)
+	{
+		v1 = edges[i][0];
+		v2 = edges[i][1];
+		if (adj[v1][v2] != 1 || adj[v2][v1] != 1)
+		{
+			cout << "DIR" << endl;
+			return;
+		}
+		
+		else
+		{
+			continue;
+		}
+	}
+	cout << "BOTH"<<endl;
+}
+int main(void) {
+	int no_vertices = 0;
+	int no_edges = 0;
+	cin >> no_vertices;
+	cin >> no_edges;
+	int v1,v2;
+	int **adjency_matrix = new int* [no_vertices]  ;
+	int **input_edges = new int*[no_edges];
+ 
+	for (int i = 0; i < no_edges; i++)
+		input_edges[i] = new int[2];
+ 
+	for (int i = 0; i < no_vertices; i++)
+		adjency_matrix[i] = new int[no_vertices];
+ 
+	
+	for (int i = 0; i < no_edges ; i++)
+	{
+		cin >> v1;
+		cin >> v2;
+		input_edges[i][0] =v1 ;
+		input_edges[i][1] = v2;
+		add_edge(adjency_matrix, v1, v2);
+	}
+	Directed_NotDirated(input_edges, adjency_matrix, no_edges);
+	//system("pause");
+   return 0;
+}
