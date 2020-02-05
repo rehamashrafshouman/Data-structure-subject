@@ -1,0 +1,77 @@
+#include<iostream>
+using namespace std;
+bool space = false;
+int binarySearch(double b, double x[], int left,int right)
+{
+	if (left == right)
+		if (b == x[left])
+		{
+			
+			//cout << x[left] << " " << endl;
+			//space = true;
+			return left;
+		}
+		else return -1;
+		int mid;
+		float mid_f = (left + right) % 2;
+		if (mid_f== 0)
+		{
+			mid = (left + right) / 2;
+		}
+		else{
+			
+			mid = ((left + right) / 2) ;
+		}
+		if (b == x[mid])return mid;
+		if (b < x[mid])
+		{
+				for (int i = left; i<mid+1 ; i++)
+				{
+					if (i + 1 == mid+1)continue;
+					space = false;
+					cout << x[i] << " ";
+				}
+				if (space == false)
+				{
+					cout << endl;
+					space = true;
+				}
+				return binarySearch(b, x, left, mid-1 );
+		}
+        if (b >x[mid])
+        {
+			
+				for (int i = mid+1; i<right+1; i++)
+				{
+					//if (i + 1 == right + 1)continue;
+					space = false;
+					cout << x[i] << " ";
+				}
+				if (space == false)
+				{
+					cout << endl;
+					space = true;
+				}
+				return binarySearch(b, x, mid + 1, right);
+        }
+}
+int main()
+{
+	double *ptr;
+	int arr_size;
+	int numb_required;
+	cin >> numb_required;
+	cin >> arr_size;
+	ptr = new double[arr_size];
+	for (int i = 0; i < arr_size;i++)
+	{
+		cin >> ptr[i];
+	}
+	if (binarySearch(numb_required, ptr, 0, arr_size-1) == -1)
+		cout << "NO" << endl;
+	else{
+		cout << "YES" << endl;
+	}
+	//system("pause");
+	return 0;
+}
