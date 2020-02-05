@@ -1,0 +1,411 @@
+#include <iostream>
+#include<string>
+#include<cstring>
+#include<stack>
+using namespace std;
+char check_word;
+int static only_operand = 0;
+int i_have_returned_before = 0;
+bool Is_operand(char c)
+{
+	if (c >= '0' && c <= '9')
+	{
+		return true;
+	}
+	return false;
+}
+ 
+bool Is_operator(char c)
+{
+	if (c == '+' || c == '-' || c == '/' || c == 'z' || c == 'y' || c == 'x' || c == '*')
+	{
+		return true;
+	}
+	return false;
+}
+char error_check(int op1, int op2, int op3, char op)
+{
+	if (op == '+')
+	{
+		//cout << op1 << "  " << op2 <<"haha"<< endl;
+		if (op1 == NULL || op2 == NULL || op3 != NULL)
+		{
+			//out << "i am shit here at add "<<endl;
+			return 'W';
+		}
+		else{
+			return 'R';
+		}
+	}
+ 
+	else if (op == '-')
+	{
+		if (op1 == NULL || op2 == NULL || op3 != NULL)
+		{
+			//out << "i am shit here at add "<<endl;
+			return 'W';
+		}
+		else{
+			return 'R';
+		}
+	}
+ 
+	else if (op == '*')
+	{
+		if (op1 == NULL || op2 == NULL || op3!=NULL)
+		{
+			//out << "i am shit here at add "<<endl;
+			return 'W';
+		}
+		else{
+			return 'R';
+		}
+	}
+	else if (op == '/')
+	{
+		if (op1 == NULL || op2 == NULL || op3 != NULL)
+		{
+			//out << "i am shit here at add "<<endl;
+			return 'W';
+		}
+		else{
+			if (op2 == 0)
+				return 'W';
+			return 'R';
+		}
+	}
+	else if (op == 'x')
+	{
+		if (op1 == NULL || op2 == NULL || op3!=NULL)
+		{
+			//out << "i am shit here at add "<<endl;
+			return 'W';
+		}
+		else{
+			return 'R';
+		}
+	}
+	else if (op == 'y')
+	{
+		if (op1 == NULL || op2!=NULL|| op3!=NULL)
+		{
+			//out << "i am shit here at add "<<endl;
+			return 'W';
+		}
+		else{
+			return 'R';
+		}
+	}
+	else if (op == 'z')
+	{
+		if (op1 == NULL || op2 == NULL || op3 == NULL)
+		{
+			//out << "i am shit here at add "<<endl;
+			return 'W';
+		}
+		else{
+			return 'R';
+		}
+	}
+	else if (op == NULL)
+		return'W';
+}
+int cal(int op1, int op2, int op3, char op)
+{
+	check_word = error_check(op1, op2, op3, op);
+	//cout << op1<<"  " << op2 << endl;
+	if (check_word == 'W'){ cout << "NO" << endl;  i_have_returned_before = 1; return 1000; }
+	else if (op == '+')
+	{
+		//cout << op1 << "  " << op2 <<"haha"<< endl;
+ 
+		if (check_word== 'R')
+		{
+			//cout << "i am at add" << endl;
+			//cout << op1 << "  " << op2 << endl;
+			return op1 + op2;
+		}
+		else{
+			cout << "NO" << endl;
+			only_operand = 0;
+		}
+	}
+	else if (op == '-')
+	{
+ 
+		if (check_word == 'R')
+		{
+			//cout << op1 << "," << op2;
+			return op1 - op2;
+		}
+		else{
+			cout << "NO" << endl;
+			only_operand = 0;
+		}
+	}
+	else if (op == '*')
+	{
+ 
+		if (check_word == 'R')
+		{
+			return op1 * op2;
+		}
+		else{
+			only_operand = 0;
+			cout << "NO" << endl;
+			
+		}
+	}
+	else if (op == '/')
+	{
+		if (check_word == 'R')
+		{
+ 
+			return op1 / op2;
+		}
+		else{
+			cout << "NO" << endl;
+			only_operand = 0;
+		}
+	}
+	else if (op == 'x')
+	{
+ 
+		if (check_word == 'R')
+		{
+			return op1*op1 + op2;
+		}
+		else{
+			cout << "NO" << endl;
+			only_operand = 0;
+		}
+	}
+	else if (op == 'y')
+	{
+ 
+		if (check_word == 'R')
+		{
+			return 2 * op1 + 1;
+		}
+		else{
+			cout << "NO" << endl;
+			only_operand = 0;
+		}
+	}
+	else if (op == 'z')
+	{
+ 
+		if (check_word == 'R')
+		{
+			return op1 + 2 * op2 + 3 * op3;
+		}
+		else{
+			cout << "NO" << endl;
+			only_operand = 0;
+		}
+	}
+	else if (check_word == 'W')
+	{
+		cout << "NO" << endl;
+		only_operand = 0;
+	}
+ 
+}
+int eval(string input)
+{
+ 
+	int entered_once = 0;
+	int num_operand = 0;
+	int result = 0;
+	int intermediate_result = 0;
+	stack<int> S;
+	int operand1 = NULL, operand2 = NULL, operand3 = NULL;
+	char myoperator = NULL;
+	for (int i = 0; i < input.length(); i++)
+	{
+		if (i_have_returned_before == 1)break;
+		//cout << num_operand << "hehe" << endl;
+		if (input[i] == ' ')
+			continue;
+		else if (Is_operand(input[i]))
+		{ if (entered_once==0)
+			only_operand = 1;
+			int f = 0;
+			while (i < input.length() && Is_operand(input[i]))
+			{
+				f = (f * 10) + (input[i] - '0');
+				i++;
+			}
+			//cout << f << endl;
+			i--;
+			if (-100 <= f && f <= 100)
+			{
+				S.push(f);
+				num_operand++;
+			}
+			else{
+				check_word = 'W';
+				return cal(operand1, operand2, operand3, myoperator);
+				break;
+ 
+			}
+			
+		}
+		else if (Is_operator(input[i]))
+		{
+			entered_once = 1;
+			only_operand = 0;
+			myoperator = input[i];
+			if (myoperator == '-' &&  num_operand != 2  )
+			{
+				entered_once = 0;
+				only_operand = 1;
+				int f = 0;
+				i = i + 1;
+				if (!Is_operand(input[i]))
+				{
+					return cal(operand1, operand2, operand3, myoperator);
+					break;
+				}
+				while (i < input.length() && Is_operand(input[i]))
+				{
+					f = (f * 10) + (input[i] - '0');
+					i++;
+				}
+ 
+				i--;
+				f = -1 * f;
+				if (-100 <= f && f<= 100)
+				{
+					S.push(f);
+					num_operand++;
+				}
+				else{
+					check_word = 'W';
+					return cal(operand1, operand2, operand3, myoperator);
+					break;
+ 
+				}
+			}
+			//cout << myoperator << endl;
+			else if (num_operand == 0)
+			{
+				check_word = 'W'; return cal(operand1, operand2, operand3, myoperator); break;
+			}
+			else if (num_operand == 1)
+			{
+				
+				if (!S.empty()){ operand1 = S.top(); S.pop(); }
+				else{ check_word = 'W'; return cal(operand1, operand2, operand3, myoperator); break; }
+					//cout << "i am here at 1"<<endl;
+					intermediate_result = cal(operand1, operand2, operand3, myoperator);
+					S.push(intermediate_result);
+					operand1 = NULL; operand2 = NULL; operand3 = NULL;
+					myoperator = NULL;
+					num_operand = 1;
+				
+			}
+			else if (num_operand == 2)
+			{
+				
+				if (!S.empty()) { operand2 = S.top(); S.pop(); }
+				else{ check_word = 'W'; return cal(operand1, operand2, operand3, myoperator); break; }
+				if (!S.empty()) {operand1 = S.top(); S.pop();}
+				else{ check_word = 'W'; return cal(operand1, operand2, operand3, myoperator); break; }
+					//cout << "i am here at 2"<<endl;
+					//cout << "these re the operand" << operand1 << " " << operand2 << endl;
+					//cout << operand1 << endl << operand2 << endl;
+					intermediate_result = cal(operand1, operand2, operand3, myoperator);
+					S.push(intermediate_result);
+					operand1 = NULL; operand2 = NULL; operand3 = NULL;
+					myoperator = NULL;
+					num_operand = 1;
+				
+			}
+			else if (num_operand >= 3){
+				if (myoperator == 'z')
+				{
+ 
+					if (!S.empty()){ operand3 = S.top(); S.pop(); }
+					else{ check_word = 'W'; return cal(operand1, operand2, operand3, myoperator); break; }
+					if (!S.empty()){ operand2 = S.top(); S.pop(); }
+					else{ check_word = 'W'; return cal(operand1, operand2, operand3, myoperator); break; }
+					if (!S.empty()){ operand1 = S.top(); S.pop(); }
+					else{ check_word = 'W'; return cal(operand1, operand2, operand3, myoperator); break; }
+					//cout << "i am here at 3" << endl;
+					intermediate_result = cal(operand1, operand2, operand3, myoperator);
+					S.push(intermediate_result);
+					operand1 = NULL; operand2 = NULL; operand3 = NULL;
+					myoperator = NULL;
+					num_operand = 1;
+				}
+				else
+				{
+ 
+					if (!S.empty()){ operand2 = S.top(); S.pop(); }
+					else{ check_word = 'W'; return cal(operand1, operand2, operand3, myoperator); break; }
+					if (!S.empty()){ operand1 = S.top(); S.pop(); }
+					else{ check_word = 'W'; return cal(operand1, operand2, operand3, myoperator); break; }
+					
+					//cout << "i am here at 3" << endl;
+					intermediate_result = cal(operand1, operand2, operand3, myoperator);
+					S.push(intermediate_result);
+					operand1 = NULL; operand2 = NULL; operand3 = NULL;
+					myoperator = NULL;
+					num_operand = num_operand + 1;
+				}
+			}
+ 
+ 
+			//cout << myoperator << endl;
+		}
+		else
+		{
+			//cout << "i am shit here " << endl;
+			check_word = 'W';
+			return cal(operand1, operand2, operand3, myoperator);
+			break;
+		}
+		//cout << operand1 << endl<<operand2<<endl<<myoperator<<endl;
+	}
+	int remainder = S.size(); 
+	if (remainder == 1 )
+	{
+		//cout << "ia am the top  " << S.top() << endl;
+			return S.top();
+		
+	}
+	else
+	{
+		if (check_word != 'W')
+		{
+			check_word = 'W';
+			return cal(operand1, operand2, operand3, myoperator);
+			
+		}
+	}
+}
+ 
+int main()
+{
+	string input;
+ 
+ 
+	
+	getline(cin, input);
+	int result = eval(input);
+	/*if (check_word != 'W' && only_operand==0)
+		cout <<result << endl;
+		*/
+	if (result == 1000)
+		;
+	else if (check_word != 'W' && only_operand == 0)
+		cout << result << endl;
+	else if (only_operand == 1)
+		cout <<result << endl;
+		
+ 
+ 
+	//system("pause");
+	return 0;
+}
