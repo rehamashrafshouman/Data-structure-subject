@@ -1,0 +1,62 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+ 
+ 
+ 
+void Directed_NotDirated(int ** edges, vector<vector<int> > adj_matrix, int no_edges)
+{
+	//int **done = new int*[no_vertices];
+	int v1 = 0, v2 = 0;
+	int f1 = 0,f2 = 0;
+	for (int i = 0; i < no_edges; i++)
+	{
+		f1 = 0; f2 = 0;
+		v1 = edges[i][0];
+		v2 = edges[i][1];
+		vector <int> ::iterator it;
+	
+		it = find(adj_matrix[v1].begin(), adj_matrix[v1].end(),v2);
+		if (it == adj_matrix[v1].end())
+		{
+			cout << "DIR" << endl;
+			return;
+		}
+	
+		it = find(adj_matrix[v2].begin(), adj_matrix[v2].end(), v1);
+		if (it == adj_matrix[v2].end())
+		{
+			cout << "DIR" << endl;
+			return;
+		}
+	}
+	cout << "BOTH" << endl;
+	return;
+}
+int main(void) {
+	int no_vertices = 0;
+	int no_edges = 0;
+	
+		cin >> no_vertices;
+		cin >> no_edges;
+		int v1, v2;
+ 
+		int **input_edges = new int*[no_edges];
+		
+		vector<vector<int>> adj_matrix(no_vertices,vector<int>(0,0));
+ 
+		for (int i = 0; i < no_edges; i++)
+		{
+			input_edges[i] = new int[2];
+			cin >> v1;
+			cin >> v2;
+			input_edges[i][0] = v1;
+			input_edges[i][1] = v2;
+			adj_matrix[v1].push_back(v2);
+		}
+		Directed_NotDirated(input_edges, adj_matrix, no_edges);
+	
+//	system("pause");
+	return 0;
+}
