@@ -1,0 +1,38 @@
+#include<iostream>
+using namespace std;
+int main()
+{
+	int T,R,N;
+	int sum = 1500;
+	cin >> T;
+	for (int i = 0; i < T; i++)
+	{
+		sum = 1500;
+		cin >> N >> R;
+		if (N < 1 || N>100)
+		{
+			return 0;
+		}
+		if (R < 0 || R>4000)
+		{
+			return 0;
+		}
+		int *ptr;
+		ptr = new int[N];
+		for (int j = 0; j < N; j++)
+		{
+			cin >> ptr[j];
+			sum = sum + ptr[j];
+		}
+		if (sum == R)
+		{
+			cout << "Correct" << endl;
+		}
+		else
+		{
+			cout << "Bug" << endl;
+		}
+ 
+	}
+	return 0;
+}
